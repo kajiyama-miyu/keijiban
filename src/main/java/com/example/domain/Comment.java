@@ -6,8 +6,17 @@ public class Comment {
 	private String name;
 	private String content;
 	private Integer articleId;
+	private Comment comment;
 	
 	
+	
+	
+	public Comment getComment() {
+		return comment;
+	}
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
 	public Integer getId() {
 		return id;
 	}
