@@ -1,16 +1,12 @@
 package com.example.service;
 
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.domain.Article;
 import com.example.domain.Comment;
 import com.example.repository.ArticleRepository;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,26 +18,48 @@ public class ArticleService {
 	private ArticleRepository articleRepository;
 
 	public List<Article> findAll() {
-		List<Article> articleList = articleRepository.findAll();
-		Map<Integer, Comment> commentMap = new HashMap<Integer, Comment>();
-		for (Article article : articleList) {
-			commentMap.put(article.getId(), new Comment());
+		List<Article> oldArticleList = articleRepository.findAll();
+		List<Integer> articleIdList = new ArrayList<Integer>();
+		List<Comment> onlyCommentList = new ArrayList<Comment>();
+		List<Article> articleList = new ArrayList<Article>();
+		
+		for(Article article : oldArticleList) {
+			Comment comment = new Comment();
+			comment.setId(article.getComment().getId());
+			comment.setName(article.getComment().getName());
+			comment.setContent(article.getComment().getContent());
+			comment.setArticleId(article.getComment().getArticleId());
+			onlyCommentList.add(comment);
 		}
-
-		for (Article article : articleList) {
-			Comment comment = commentMap.get(article.getId());
-			comment.setComment(article.getComment());
+		
+		for(Article article: oldArticleList) {
+			articleIdList.add(article.getId());
 		}
-
-		Map<Integer, Article> articleMap = new HashMap<Integer, Article>();
-		for (Article article : articleList) {
-			article.setComment(commentMap.get(article.getId()));
-			articleMap.put(article.getId(), article);
+		
+		//重複なしのarticleのIDリスト。
+		List<Integer> articleIdWithoutDouble = new ArrayList<Integer>(new LinkedHashSet<>(articleIdList));
+		
+		
+		for(Integer number: articleIdWithoutDouble) {
+			List<Comment> commentList = new ArrayList<Comment>();
+			Article article = new Article();
+			for(Article oldArticle: oldArticleList) {
+				if(number == oldArticle.getId()) {
+					Comment comment = new Comment();
+					article.setId(number);
+					article.setName(oldArticle.getName());
+					article.setContent(oldArticle.getContent());
+					comment.setId(oldArticle.getComment().getId());
+					comment.setName(oldArticle.getComment().getName());
+					comment.setContent(oldArticle.getComment().getContent());
+					comment.setArticleId(oldArticle.getComment().getArticleId());
+					commentList.add(comment);
+				}
+			}
+			article.setCommentList(commentList);
+			articleList.add(article);
 		}
-
-		List<Article> articles = new ArrayList<>(articleMap.values());
-
-		return articles;
+		return articleList;
 	}
 
 	public void insertArticle(Article article) {
