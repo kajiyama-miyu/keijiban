@@ -5,20 +5,30 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3>掲示板</h3>
-<form th:action="@{/keijiban/post-article}" method="post" th:object="${articleForm}">
-	name:<input type="text" th:field="*{name}"><br>
-	content:<textarea rows="5" cols="50" th:field="*{content}"></textarea><br>
-	<button>post</button>
-</form><br>
-<div th:each="article: ${articleList}">
-	<div th:text="${article.name}"></div>
-	<div th:text="${article.content}"></div>
-	<div th:each="comment: ${article.commentList}"></div>
-		<div th:text="${comment.name}"></div>
-		<div th:text="${comment.content}"></div>
-	<hr>
-</div>
-
+	<h3>掲示板</h3>
+	<form th:action="@{/keijiban/post-article}" method="post"
+		th:object="${articleForm}">
+		name:<input type="text" th:field="*{name}"><br> content:
+		<textarea rows="5" cols="50" th:field="*{content}"></textarea>
+		<br>
+		<button>post</button>
+	</form>
+	<br>
+	<div th:each="article: ${articleList}">
+		<div th:text="${article.name}"></div>
+		<div th:text="${article.content}"></div>
+		<div th:each="comment: ${article.commentList}">
+			<div th:text="${comment.name}"></div>
+			<div th:text="${comment.content}"></div>
+		</div>
+		<form th:action="@{/keijiban/post-comment}" method="post"
+			th:object="${commentForm}">
+			name:<input type="text" th:field="*{name}"><br> content:
+			<textarea rows="5" cols="50" th:field="*{content}"></textarea>
+			<br>
+			<button>delete</button>
+		</form>
+		<hr>
+	</div>
 </body>
 </html>

@@ -18,6 +18,7 @@ public class ArticleService {
 	private ArticleRepository articleRepository;
 
 	public List<Article> findAll() {
+		
 		List<Article> oldArticleList = articleRepository.findAll();
 		List<Integer> articleIdList = new ArrayList<Integer>();
 		List<Comment> onlyCommentList = new ArrayList<Comment>();
