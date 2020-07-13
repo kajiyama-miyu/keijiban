@@ -61,8 +61,11 @@ public class ArticleController {
 		comment.setName(form.getName());
 		comment.setContent(form.getContent());
 		Integer articleId = Integer.parseInt(form.getArticleId());
+		
+		System.out.println(form.getArticleId());
+		
 		comment.setArticleId(articleId);
-		commentService.insertComment(comment);
+//		commentService.insertComment(comment);
 		return "redirect:/keijiban";
 		
 	}

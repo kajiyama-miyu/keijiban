@@ -17,6 +17,10 @@
 	<div th:each="article: ${articleList}">
 		<div th:text="${article.name}"></div>
 		<div th:text="${article.content}"></div>
+		<form th:action="@{/keijiban/delete-article}">
+			<input type="hidden" th:value="${article.id}" name="deleteId">
+			<button>delete</button>
+		</form>
 		<div th:each="comment: ${article.commentList}">
 			<div th:text="${comment.name}"></div>
 			<div th:text="${comment.content}"></div>
@@ -25,8 +29,9 @@
 			th:object="${commentForm}">
 			name:<input type="text" th:field="*{name}"><br> content:
 			<textarea rows="5" cols="50" th:field="*{content}"></textarea>
-			<br>
-			<button>delete</button>
+			<br> <input type="hidden" name="articleId"
+				th:value="${article.id}">
+			<button>post</button>
 		</form>
 		<hr>
 	</div>
