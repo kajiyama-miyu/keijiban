@@ -66,4 +66,10 @@ public class ArticleController {
 		return "redirect:/keijiban";
 		
 	}
+	
+	@RequestMapping("/delete-article")
+	public String deleteArticle(int deleteId) {
+		articleService.deleteByArticle(deleteId);
+		return "redirect:/keijiban";
+	}
 }
