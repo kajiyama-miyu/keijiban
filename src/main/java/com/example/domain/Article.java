@@ -7,9 +7,16 @@ public class Article {
 	private Integer id;
 	private String name;
 	private String content;
+	private Comment comment;
 	private List<Comment> commentList;
 	
 	
+	public Comment getComment() {
+		return comment;
+	}
+	public void setComment(Comment comment) {
+		this.comment = comment;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -34,6 +41,8 @@ public class Article {
 	public void setCommentList(List<Comment> commentList) {
 		this.commentList = commentList;
 	}
+	
+	
 	
 	
 }
