@@ -22,26 +22,8 @@ public class ArticleService {
 	private ArticleRepository articleRepository;
 
 	public List<Article> findAll() {
-		List<Article> articleList = articleRepository.findAll();
-		Map<Integer, Comment> commentMap = new HashMap<Integer, Comment>();
-		for (Article article : articleList) {
-			commentMap.put(article.getId(), new Comment());
-		}
-
-		for (Article article : articleList) {
-			Comment comment = commentMap.get(article.getId());
-			comment.setComment(article.getComment());
-		}
-
-		Map<Integer, Article> articleMap = new HashMap<Integer, Article>();
-		for (Article article : articleList) {
-			article.setComment(commentMap.get(article.getId()));
-			articleMap.put(article.getId(), article);
-		}
-
-		List<Article> articles = new ArrayList<>(articleMap.values());
-
-		return articles;
+		
+		return articleRepository.findAll();
 	}
 
 	public void insertArticle(Article article) {
